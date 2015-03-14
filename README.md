@@ -32,7 +32,7 @@ Basic controller example:
 
     def create
       @awesome = ::Awesome.new(params)
-      validate_create(@aweome)
+      validate_create(@awesome)
 
       if @awesome.valid?
         render :show
@@ -43,7 +43,7 @@ Basic controller example:
 
     def update
       @awesome = ::Awesome.find(params[:id])
-      validate_update(@aweome)
+      validate_update(@awesome)
 
       if @awesome.valid?
         render :show
