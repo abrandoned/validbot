@@ -52,6 +52,17 @@ Basic controller example:
       end
     end
 
+    def show
+      @awesome = ::Awesome.find(params[:id])
+      validate_show(@awesome)
+
+      if @awesome.valid?
+        render :show
+      else
+        render :error
+      end
+    end
+
   private
     
     def validate_create(awesome_object)
@@ -69,6 +80,16 @@ Basic controller example:
             self.errors.add(:updated_at, 'can only update every 15 minutes')
           end
         end
+      end
+    end
+
+    def validate_show(awesome_object)
+      Validbot.validate(awesome_object) do
+        validate :updated_at, lambda { |awesome|
+          if awesome.updated_at && awesome.updated_at > 15.minutes.ago
+            awesome.errors.add(:updated_at, 'can only show if updated in last 15 minutes')
+          end
+        }
       end
     end
   end
